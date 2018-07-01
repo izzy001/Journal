@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.util.Date;
 
@@ -29,7 +30,8 @@ public class AddJournalActivity extends AppCompatActivity {
     private static final String TAG = AddJournalActivity.class.getSimpleName();
 
     EditText mEditText;
-    Button mButton;
+    /*Button mButton;*/
+    ImageButton button;
 
     private int mJournalId = DEFAULT_JOURNAL_ID;
 
@@ -51,7 +53,7 @@ public class AddJournalActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(EXTRA_JOURNAL_ID)) {
-            mButton.setText("Update");
+            /*mButton.setText("Update");*/
             if (mJournalId == DEFAULT_JOURNAL_ID) {
                 //populate the UI
                 mJournalId = intent.getIntExtra(EXTRA_JOURNAL_ID, DEFAULT_JOURNAL_ID);
@@ -88,12 +90,22 @@ public class AddJournalActivity extends AppCompatActivity {
     private void initViews() {
         mEditText = findViewById(R.id.editTextJournalDescription);
 
-        mButton = findViewById(R.id.saveButton);
+       ImageButton button = findViewById(R.id.saveButton);
+       ImageButton button1 = findViewById(R.id.cancel_action);
 
-        mButton.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onSaveButtonClicked();
+            }
+        });
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AddJournalActivity.this, ChildActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
     }
@@ -129,7 +141,7 @@ public class AddJournalActivity extends AppCompatActivity {
                 if (mJournalId == DEFAULT_JOURNAL_ID) {
                     // insert new task
                     mDb.journalDao().insertJournal(task);
-                } else {
+                }else {
                     //update task
                     task.setId(mJournalId);
                     mDb.journalDao().updateJournal(task);
@@ -139,7 +151,5 @@ public class AddJournalActivity extends AppCompatActivity {
         });
     }
 
-    public void onClickAddJournal(View view) {
 
-    }
 }

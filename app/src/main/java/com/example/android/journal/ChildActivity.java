@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,6 +57,33 @@ public class ChildActivity extends AppCompatActivity implements JournalAdapter.I
 
         DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), VERTICAL);
         mRecyclerView.addItemDecoration(decoration);
+
+
+         /*
+         Add a touch helper to the RecyclerView to recognize when a user swipes to delete an item.
+         An ItemTouchHelper enables touch behavior (like swipe and move) on each ViewHolder,
+         and uses callbacks to signal when a user is performing these actions.
+         */
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+            // Called when a user swipes left or right on a ViewHolder
+            @Override
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                // Here is where you'll implement swipe to delete
+               JournalExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        int position = viewHolder.getAdapterPosition();
+                        List<JournalEntry> tasks = mAdapter.getJournal();
+                        mDb.journalDao().deleteJournal(tasks.get(position));
+                    }
+                });
+            }
+        }).attachToRecyclerView(mRecyclerView);
 
 
 
