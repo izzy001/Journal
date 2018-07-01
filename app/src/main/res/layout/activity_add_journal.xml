@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+    
+
+    <!--<EditText
+        android:id="@+id/editTitleJournalDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter title"
+        />-->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editTextJournalDescription"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/edit_journal_description"/>
+
+    </ScrollView>
+
+    <!-- EditText for getttaskEntrytask description input -->
+
+
+    <!-- Add button -->
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/saveButton"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/Save"
+        android:textColor="@android:color/primary_text_dark" />
+
+
+</FrameLayout>
